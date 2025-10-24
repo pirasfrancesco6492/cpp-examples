@@ -22,7 +22,7 @@ int main() {
     srand(time(NULL));
     Carta carte[100];
     int i=0;
-    char string[10];
+    char str[10];
     int sum = 0;
     bool perso = false;
 
@@ -54,7 +54,7 @@ int main() {
                 do {
                     cout << "L'asso può valere 1 o 11.\nQuanto lo fai valere?" << endl;
                     cin >> valore_asso;
-                } while (valore_asso == 1 || valore_asso == 11);
+                } while (valore_asso != 1 && valore_asso != 11);
             }
             if(valore_asso == 1) {
                 carte[i].valore = 1;
@@ -64,22 +64,25 @@ int main() {
         }
         sum += carte[i].valore;
         cout << carte[i].seme.nome << " " << carte[i].valore << endl;
+        cout << "Ora la tua somma è: " << sum << endl;
         if(sum < 21) {
             cout << "Ora puoi chiedere un'altra carta o finire il gioco.\nSe vuoi una carta scrivi si, altrimenti scrivi no.\nNon devi superare i 21 punti o perderai." << endl;
-            cin >> string;
+            cin >> str;
         } else {
             cout << "Hai perso!\nHai preso " << sum << " punti." << endl;
             perso = true;
             break;
         }
         i++;
-    } while (strcmp(string, "no") != 0);
+    } while (strcmp(str, "no") != 0 && i<100);
     
     if (!perso) {
         bool valore_asso = false;
         int sum_computer = 0;
-        Carta carte_computer[2];
-        for(int i=0; i<2; i++) {
+        Carta carte_computer[100];
+        cout << endl << endl << "Ora gioca il pc" << endl << endl;
+        i = 0;
+        while(sum_computer < 17 && i<100) {
             int random_type = rand()%4+1;
             int random_value = rand()%13+1;
             switch (random_type) {
@@ -96,24 +99,30 @@ int main() {
             if(random_value > 10) {
                 carte_computer[i].valore = 10;
             }
-            
-            cout << endl << endl << "Ora gioca il pc" << endl << endl;
-            
+                        
             valore_asso = rand()%2;
-            if(valore_asso) {
-                carte_computer[i].valore = 11;
-            } else {
-                carte_computer[i].valore = 1;
+            if(random_value == 1) {
+                if(valore_asso) {
+                    carte_computer[i].valore = 11;
+                } else {
+                    carte_computer[i].valore = 1;
+                }
+                if(sum_computer + 11 > 21) carte_computer[i].valore = 1;
             }
-            sum_computer += carte[i].valore;
+            sum_computer += carte_computer[i].valore;
             cout << carte_computer[i].seme.nome << " " << carte_computer[i].valore << endl;
+            i++;
         }
-        
+
+        cout << "Somma: " << sum_computer << endl;
+    
         if(sum_computer > 21) {
             cout << "Ho perso. Hai vinto tu." << endl;
         } else {
             if(sum_computer > sum) {
                 cout << "Ho vinto." << endl;
+            } else if (sum_computer == sum) {
+                cout << "Pareggio." << endl;
             } else {
                 cout << "Hai vinto." << endl;
             }
