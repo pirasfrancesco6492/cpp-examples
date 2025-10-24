@@ -1,17 +1,13 @@
-/* In questo algoritmo si utilizza la tecnica algoritmica Greedy 
-nell'esempio del gioco delle monete.
-Dato in input un certo valore in denaro, l'algoritmo restituisce l'ottimo
-globale attraverso una serie di calcoli degli ottimi locali
-Complessità logaritmica. */
+/* risoluzione del problema del resto con la tecnica greedy, C = O(klog n) */
 
 #include <iostream>
 using namespace std;
 
 int local(int values[], int len, int import) {
     int left = 0, right = len - 1;
-    int best = -1; // per gestione UB 
+    int best = -1;
     while (left <= right) {
-        int mid = left + (right - left) / 2; // per gestione integer overflow
+        int mid = left + (right - left) / 2;
         if (values[mid] <= import) {
             best = values[mid];
             left = mid + 1;
